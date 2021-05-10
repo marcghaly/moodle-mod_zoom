@@ -71,16 +71,16 @@ define(['jquery'], function($) {
      * The init function.
      */
     var init = function() {
-        var option_jbh = $(SELECTORS.OPTION_JBH);
-        var option_waiting_room = $(SELECTORS.OPTION_WAITING_ROOM);
-        option_jbh.change(function() {
-            if (option_jbh.is(':checked') == true) {
-                option_waiting_room.prop('checked', false);
+        var optionJoinBeforeHost = $(SELECTORS.OPTION_JBH);
+        var optionWaitingRoom = $(SELECTORS.OPTION_WAITING_ROOM);
+        optionJoinBeforeHost.change(function() {
+            if (optionJoinBeforeHost.is(':checked') === true) {
+                optionWaitingRoom.prop('checked', false);
             }
         });
-        option_waiting_room.change(function() {
-            if (option_waiting_room.is(':checked') == true) {
-                option_jbh.prop('checked', false);
+        optionWaitingRoom.change(function() {
+            if (optionWaitingRoom.is(':checked') === true) {
+                optionJoinBeforeHost.prop('checked', false);
             }
         });
 
