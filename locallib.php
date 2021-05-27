@@ -44,6 +44,10 @@ define('ZOOM_SCHEDULED_WEBINAR', 5);
 define('ZOOM_RECURRING_WEBINAR', 6);
 define('ZOOM_RECURRING_FIXED_MEETING', 8);
 define('ZOOM_RECURRING_FIXED_WEBINAR', 9);
+// Meeting status.
+define('ZOOM_MEETING_EXPIRED', 0);
+define('ZOOM_MEETING_EXISTS', 1);
+
 // Number of meetings per page from zoom's get user report.
 define('ZOOM_DEFAULT_RECORDS_PER_CALL', 30);
 define('ZOOM_MAX_RECORDS_PER_CALL', 300);
@@ -687,8 +691,10 @@ function zoom_get_selectable_alternative_hosts_list(context $context) {
         // At least, Zoom does not care if the user who is the host adds himself as alternative host as well.
 
         // Verify that the user really has a Zoom account.
+        // Furthermore, verify that the user's status is active. Adding a pending or inactive user as alternative host will result
+        // in a Zoom API error otherwise.
         $zoomuser = $service->get_user($u->email);
-        if ($zoomuser !== false) {
+        if ($zoomuser !== false && $zoomuser->status === 'active') {
             // Add user to array of users.
             $selectablealternativehosts[$u->email] = fullname($u);
         }

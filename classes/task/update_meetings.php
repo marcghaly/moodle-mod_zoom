@@ -75,7 +75,7 @@ class update_meetings extends \core\task\scheduled_task {
         $service = new \mod_zoom_webservice();
 
         // Check all meetings, in case they were deleted/changed on Zoom.
-        $zoomstoupdate = $DB->get_records('zoom', array('exists_on_zoom' => true));
+        $zoomstoupdate = $DB->get_records('zoom', array('exists_on_zoom' => ZOOM_MEETING_EXISTS));
         $courseidstoupdate = array();
 
         foreach ($zoomstoupdate as $zoom) {
@@ -85,7 +85,7 @@ class update_meetings extends \core\task\scheduled_task {
                 $gotinfo = true;
             } catch (\moodle_exception $error) {
                 // Outputs error and then goes to next meeting.
-                $zoom->exists_on_zoom = false;
+                $zoom->exists_on_zoom = ZOOM_MEETING_EXPIRED;
                 $DB->update_record('zoom', $zoom);
                 mtrace('Error updating Zoom meeting with meeting_id ' . $zoom->meeting_id . ': ' . $error);
             }
